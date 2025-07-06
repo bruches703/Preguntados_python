@@ -1,0 +1,38 @@
+[
+    {
+        "nombre": "Ana",
+        "puntuacion": 175,
+        "fecha": "2024-04-05"
+    },
+    {
+        "nombre": "Pedro",
+        "puntuacion": 150,
+        "fecha": "2024-03-10"
+    },
+    {
+        "nombre": "david",
+        "puntuacion": 125,
+        "fecha": "2025-07-06T19:53:21.745142"
+    },
+    {
+        "nombre": "Juan",
+        "puntuacion": 100,
+        "fecha": "2024-01-15"
+    },
+    {
+        "nombre": "Maria",
+        "puntuacion": 75,
+        "fecha": "2024-02-20"
+    },
+    {
+        "nombre": "Fulano",
+        "puntuacion": 50,
+        "fecha": "2024-06-01"
+    },
+    {
+        "nombre": "david",
+        "puntuacion": 25,
+        "fecha": "2025-07-06T17:27:30.205904"
+    }
+    
+]

@@ -1,0 +1,59 @@
+import pygame
+pygame.init()
+
+# DEFICION DE COLORES
+COLOR_BLANCO = (255,255,255)
+COLOR_NEGRO = (0,0,0)
+COLOR_VERDE = (0,255,0)
+COLOR_ROJO = (255,0,0)
+COLOR_AZUL = (0,0,255)
+COLOR_VIOLETA = (134,23,219)
+# DEFINICION DE PANTALLA
+ANCHO = 700
+ALTO = 800
+PANTALLA = (ANCHO,ALTO)
+FPS = 30
+# DEFINICION DE BOTONES DE ACCESO
+BOTON_JUGAR = 0
+BOTON_CONFIG = 1
+BOTON_PUNTUACIONES = 2
+BOTON_SALIR = 3
+
+pos_x_boton_volver = 10
+pos_y_boton_volver = 750
+# DEFINICION DE BOTONES
+ANCHO_PREGUNTA = 450
+ALTO_PREGUNTA = 220
+ANCHO_BOTON = 250
+ALTO_BOTON = 60
+ANCHO_CUADRO = 250
+ALTO_CUADRO = 50
+ALTO_BOTON_VOLVER = 100
+ANCHO_BOTON_VOLVER = 40
+ALTO_CUADRO_PODIO = 65
+ANCHO_CUADRADO_PODIO = 250
+ALTO_BOTON_COMODIN = 80
+ANCHO_BOTON_COMODIN = 80
+TAMAÑO_BOTON_VOLUMEN = (60,60)
+TAMAÑO_BOTON_VOLVER = (100,40)
+
+# DEFINICION MULTIMEDIA
+CLICK_SONIDO = pygame.mixer.Sound("Sonidos/click.mp3")
+ERROR_SONIDO = pygame.mixer.Sound("Sonidos/error.mp3")
+FUENTE_PREGUNTA = pygame.font.SysFont("castellar",25,True)
+FUENTE_RESPUESTA = pygame.font.SysFont("Arial",20,True)
+FUENTE_TEXTO = pygame.font.SysFont("Arial",25,True)
+FUENTE_VOLUMEN = pygame.font.SysFont("Arial",50,True)
+FUENTE_CUADRO_TEXTO = pygame.font.SysFont("Arial",40,True)
+FUENTE_PODIO = pygame.font.SysFont("castellar",25,True)
+
+TEXTURA_BOMBA = "Imagenes/Botones/on_Bomba.png"
+TEXTURA_DOBLE_CHANCE = "Imagenes/Botones/on_Doble oportunidad.png"
+TEXTURA_PASAR_PREGUNTA ="Imagenes/Botones/on_Siguiente pregunta.png"
+TEXTURA_DUPLICADOR = "Imagenes/Botones/on_Doble puntaje.png"
+
+# DEFINICION DE DATOS DEL JUEGO
+CANTIDAD_VIDAS = 1
+PUNTUACION_ACIERTO = 50
+PUNTUACION_ERROR = 25
+CANTIDAD_TIEMPO = 30

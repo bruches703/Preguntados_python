@@ -1,0 +1,1 @@
+playlist = ["Sonidos/playlist/music_1.mp3", "Sonidos/playlist/music_2.mp3", "Sonidos/playlist/music_3.mp3","Sonidos/playlist/music_4.mp3"]
