@@ -2,6 +2,7 @@ import pygame
 from Constantes import *
 from Funciones_generales import *
 from Funciones_comodines import *
+from Funciones_comodines import *
 
 pygame.init()
 
@@ -16,11 +17,8 @@ fondo_pantalla = pygame.transform.scale(pygame.image.load("Imagenes/Fondos/fondo
 #Elemento del juego
 caja_pregunta = crear_elemento_juego("Imagenes/Fondos/Fondo_caja_preguntas.png",ANCHO_PREGUNTA,ALTO_PREGUNTA,140,140)
 lista_respuestas = crear_respuestas("Imagenes/Botones/boton_g.png",ANCHO_BOTON,ALTO_BOTON,40,380,4)
-
+random.shuffle(lista_respuestas)
 # Boton comodines
-
-
-
 
 boton_bomba = crear_elemento_juego(TEXTURA_BOMBA,ALTO_BOTON_COMODIN,ANCHO_BOTON_COMODIN,150,650)
 boton_doble_oportunidad = crear_elemento_juego(TEXTURA_DOBLE_CHANCE,ALTO_BOTON_COMODIN,ANCHO_BOTON_COMODIN,250,650)
@@ -53,52 +51,53 @@ def mostrar_juego(pantalla: pygame.Surface, cola_eventos: list[pygame.event.Even
         retorno = "terminado"
 
     for evento in cola_eventos:
-        print(estado_comodines["duplica_puntos"])
+        respuesta = None
+        print(estado_comodines["estado_doble_chance"])
         if evento.type == pygame.QUIT:
             retorno = "salir"
         elif evento.type == pygame.MOUSEBUTTONDOWN:
             if evento.button == 1 and datos_juego["estado"] == "jugando" :
 
+
+#----------------------------------------------------------------------
                 # Comodin pasar pregunta
                 if boton_pasar_pregunta["rectangulo"].collidepoint(evento.pos) and estado_comodines["estdo_pasar_pregunta"]:
                     # modular preguntas
                     pregunta_actual = activar_boton_pasar_pregunta(caja_pregunta, lista_preguntas,datos_juego, lista_preguntas, estado_comodines, boton_pasar_pregunta)
                     for boton in lista_respuestas:
-                        limpiar_superficie(boton, "Imagenes/Botones/boton_g.png", ANCHO_BOTON, ALTO_BOTON)
-                elif boton_bomba["rectangulo"].collidepoint(evento.pos) and estado_comodines["estdo_bomba"] and estado_comodines["comodin_activo"]:
-                    # modular bomba
-                    estado_comodines["comodin_activo"] = False
-                    estado_comodines["estdo_bomba"] = False
-                    CLICK_SONIDO.play()
-                    limpiar_superficie(boton_bomba, "Imagenes/Botones/off_Bomba.png",ANCHO_BOTON_COMODIN,ALTO_BOTON_COMODIN)
+                        limpiar_superficie(boton, "Imagenes/Botones/boton_g.png", ANCHO_BOTON, ALTO_BOTON)  
+                    
+                # Comodin Bomba
+                elif boton_bomba["rectangulo"].collidepoint(evento.pos) and estado_comodines["estdo_bomba"] and not estado_comodines["comodin_activo"]:
+                    activar_boton_bomba(boton_bomba, estado_comodines, lista_respuestas, pregunta_actual)
+
                 # Comodin duplicador
                 elif boton_duplicador["rectangulo"].collidepoint(evento.pos) and not estado_comodines["duplica_puntos"]:
                     activcar_boton_duplicador(estado_comodines, boton_duplicador)
-                elif boton_doble_oportunidad["rectangulo"].collidepoint(evento.pos) :
-                    estado_comodines["estado_doble_chance"] = False
-                    
+                # Comodin Doble chance
+                elif (boton_doble_oportunidad["rectangulo"].collidepoint(evento.pos)) and (estado_comodines["estado_doble_chance"] is None) and not estado_comodines["comodin_activo"]:
+                    activar_boton_doble_chance(estado_comodines, boton_doble_oportunidad)
 # ---------------------------------------------------------------------
                 else:
                     # detectar click sobre las respuestas normalmente
                     respuesta = obtener_respuesta_click(lista_respuestas, evento.pos)
                     if respuesta is not None:
-                        if verificar_respuesta(datos_juego, pregunta_actual, respuesta, estado_comodines["duplica_puntos"], estado_comodines["estdo_doble_chance"]):
+                        es_correcta = verificar_respuesta(datos_juego, pregunta_actual, respuesta, estado_comodines["duplica_puntos"], estado_comodines.get("estado_doble_chance", False))
+                        if es_correcta:
                             CLICK_SONIDO.play()
                             contador_correctas += 1
                             contador_correctas = sumar_bonus_vida(datos_juego, contador_correctas)
+                            for i in range(len(lista_respuestas)):
+                                if i + 1 == pregunta_actual["respuesta_correcta"]:
+                                    limpiar_superficie(lista_respuestas[i], "Imagenes/Botones/boton_v.png", ANCHO_BOTON, ALTO_BOTON)
+                                else:
+                                    limpiar_superficie(lista_respuestas[i], "Imagenes/Botones/boton_r.png", ANCHO_BOTON, ALTO_BOTON)
+                            datos_juego["estado"] = "esperando"
+                            datos_juego["temporizador_respuesta"] = pygame.time.get_ticks()
+                            estado_comodines["estado_doble_chance"] = False  # Se desactiva si estaba activa
                         else:
-                            contador_correctas = 0
-                            ERROR_SONIDO.play()
-
-                        # colorear respuestas
-                        for i in range(len(lista_respuestas)):
-                            if i + 1 == pregunta_actual["respuesta_correcta"]:
-                                limpiar_superficie(lista_respuestas[i], "Imagenes/Botones/boton_v.png", ANCHO_BOTON, ALTO_BOTON)
-                            else:
-                                limpiar_superficie(lista_respuestas[i], "Imagenes/Botones/boton_r.png", ANCHO_BOTON, ALTO_BOTON)
-                        
-                        datos_juego["estado"] = "esperando"
-                        datos_juego["temporizador_respuesta"] = pygame.time.get_ticks()
+                            # Ejecucion de doble chance
+                            ejecucion_cambio_pregunta(estado_comodines,datos_juego,lista_respuestas,pregunta_actual,respuesta)
             
         elif evento.type == evento_tiempo:
             datos_juego["tiempo_restante"] -= 1
@@ -121,7 +120,7 @@ def mostrar_juego(pantalla: pygame.Surface, cola_eventos: list[pygame.event.Even
                 datos_juego['indice'] = 0
             pregunta_actual = cambiar_pregunta(lista_preguntas, datos_juego['indice'], caja_pregunta, lista_respuestas)
             datos_juego["estado"] = "jugando"
-            estado_comodines["comodin_activo"] = True
+            estado_comodines["comodin_activo"] = False
             estado_comodines["duplica_puntos"] = False
     
     pantalla.blit(fondo_pantalla, (0, 0))

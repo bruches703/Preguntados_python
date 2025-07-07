@@ -6,6 +6,7 @@ from Configurtacion import *
 from Rankings import *
 from Terminado import *
 from Playlist import *
+from Funciones_comodines import *
 import random
 
 
@@ -28,8 +29,8 @@ estado_comodines ={ "comodin_activo": False,
                     "estdo_pasar_pregunta" : True,
                     "estdo_bomba" : True,
                     "estdo_duplicado" : False, #No esta duplicando
-                    "estdo_doble_chance" : True,
-                    "duplica_puntos" : False
+                    "duplica_puntos" : False,
+                    "estado_doble_chance": None
                    } 
 corriendo = True
 reloj = pygame.time.Clock()

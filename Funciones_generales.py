@@ -54,7 +54,7 @@ def reiniciar_estadisticas(datos_juego:dict, estado_comodines : dict) -> None:
     estado_comodines["estdo_pasar_pregunta"] = True
     estado_comodines["estdo_bomba"] = True
     estado_comodines["duplica_puntos"] = False
-    estado_comodines["estdo_doble_chance"] = True
+    estado_comodines["estado_doble_chance"] = None
 
 def verificar_respuesta(datos_juego:dict, pregunta:dict, respuesta:int, duplica_puntos: bool, doble_chance: bool) -> bool:
     """Verifica si la respuesta dada es correcta y actualiza las estadísticas del juego.
@@ -78,7 +78,6 @@ def verificar_respuesta(datos_juego:dict, pregunta:dict, respuesta:int, duplica_
         retorno = True
     else:
         if doble_chance:
-            datos_juego["vidas"] -= 1
             datos_juego["puntuacion"] -= PUNTUACION_ERROR
             retorno = False    
         else:

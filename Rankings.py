@@ -38,6 +38,7 @@ def generar_lista_ranking() -> list:
     return lista_rankings
 
 def mostrar_rankings(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Event],datos_juego:dict, lista_ranking: list) -> str:
+    lista_ranking = ordenar_rankings(lista_ranking)
     boton_volver = crear_elemento_juego("Imagenes/Botones/boton_g.png",100,40,10,750)
     retorno = "rankings"
 

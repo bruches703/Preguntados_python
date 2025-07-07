@@ -1,5 +1,10 @@
 [
     {
+        "nombre": "lorenzo",
+        "puntuacion": 200,
+        "fecha": "2025-07-07T01:09:21.988101"
+    },
+    {
         "nombre": "Ana",
         "puntuacion": 175,
         "fecha": "2024-04-05"
@@ -8,6 +13,11 @@
         "nombre": "Pedro",
         "puntuacion": 150,
         "fecha": "2024-03-10"
+    },
+    {
+        "nombre": "prueba",
+        "puntuacion": 150,
+        "fecha": "2025-07-07T00:51:34.769076"
     },
     {
         "nombre": "david",
@@ -23,16 +33,6 @@
         "nombre": "Maria",
         "puntuacion": 75,
         "fecha": "2024-02-20"
-    },
-    {
-        "nombre": "Fulano",
-        "puntuacion": 50,
-        "fecha": "2024-06-01"
-    },
-    {
-        "nombre": "david",
-        "puntuacion": 25,
-        "fecha": "2025-07-06T17:27:30.205904"
+
     }
-    
 ]
