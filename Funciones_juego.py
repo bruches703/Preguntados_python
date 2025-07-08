@@ -17,14 +17,16 @@ def sumar_bonus(datos_juego: dict, contador_correctas: int) -> int:
         int: retorna 0 para reiniciar las respuestas consecutivas y aumenta en 1 las vidas, o devuelve las
         respuestas consecutivas
     """
-    
-    if contador_correctas == 5 and datos_juego["dificultad"] == "normal":
+    if contador_correctas == 5 and datos_juego["dificultad"] == "facil":
+        datos_juego["tiempo_restante"] += 3
+        return 0
+    elif contador_correctas == 5 and datos_juego["dificultad"] == "normal":
         datos_juego["vidas"] += 1
         datos_juego["tiempo_restante"] += 3
         return 0
     elif contador_correctas == 3 and datos_juego["dificultad"] == "dificil":
         datos_juego["vidas"] += 1
-        datos_juego["tiempo_restante"] += 5
+        datos_juego["tiempo_restante"] += 7
         return 0
     else:
         return contador_correctas
