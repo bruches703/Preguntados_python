@@ -58,8 +58,12 @@ def mostrar_ajustes(pantalla: pygame.Surface, cola_eventos: list[pygame.event.Ev
     return retorno
 
 def ejecucion_de_pantalla_configuracion(pantalla: pygame.surface.Surface, datos_juego: dict) -> None:
-
-    mostrar_texto(boton_volver["superficie"], "VOLVER", (10, 10), FUENTE_PREGUNTA , COLOR_NEGRO)
+    """Dibuja todos los elementos de la pantalla "configuracion"
+    Args:
+        pantalla (pygame.surface.Surface): Superficie donde se dibuja el programa
+        datos_juego (dict): diccionario con informacion del juego
+    """
+    mostrar_texto(boton_volver["superficie"], "VOLVER", (10, 10), FUENTE_RESPUESTA , COLOR_NEGRO)
     mostrar_texto(boton_cambiar_dificultad["superficie"], "CAMBIAR DIFICULTAD", (30, 25), FUENTE_PREGUNTA, COLOR_NEGRO)
 
     ejecutar_blits(fondo_pantalla,[boton_suma,boton_resta,boton_volver,boton_audio_off,boton_cambiar_dificultad],pantalla)
@@ -89,7 +93,7 @@ def ajustar_volumen(pantalla: pygame.Surface, datos_juego: dict) -> None:
     barra de volumen
 
     Args:
-        pantalla (pygame.Surface): informacion de la pantalla
+        pantalla (pygame.surface.Surface): Superficie donde se dibuja el programa
         datos_juego (dict): diccionario con los datos del juego
     """
     pygame.draw.rect(pantalla, COLOR_AZUL, rect_barra_fondo, 2)

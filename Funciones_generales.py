@@ -83,11 +83,9 @@ def verificar_respuesta(datos_juego:dict, pregunta:dict, respuesta:int, estado_c
     if estado_comodines["duplica_puntos"]:
         puntos_a_sumar = datos_juego["puntos_por_acierto"] * 2
         estado_comodines["duplica_puntos"] = False
-        print(puntos_a_sumar)
+        
     else:
         puntos_a_sumar = datos_juego["puntos_por_acierto"]
-
-    print(puntos_a_sumar)
     
     if respuesta == pregunta["respuesta_correcta"]:
         datos_juego["puntuacion"] += puntos_a_sumar
@@ -303,6 +301,16 @@ def bajar_volumen(datos_juego: dict) -> None:
         ERROR_SONIDO.play()
 
 def reproducir_musica(pista: str, porcentaje_volumen, bandera_musica: bool):
+    """Reproductor de musica
+
+    Args:
+        pista (str): direcion del mp3
+        porcentaje_volumen (_type_): nivel de volumen
+        bandera_musica (bool): false si no se reproduce, true si se reproduce
+
+    Returns:
+        _type_: _description_
+    """
     if bandera_musica:
         bandera_musica = False
     else:
@@ -312,8 +320,13 @@ def reproducir_musica(pista: str, porcentaje_volumen, bandera_musica: bool):
     pygame.mixer.music.play(-1)
     return bandera_musica
 
-def ejecutar_blits(fondo_pantalla, lista_cajas, pantalla: pygame.Surface) -> None:
-    """Ejecuta todos los blit del archivo "juego.py"
+def ejecutar_blits(fondo_pantalla, lista_cajas: list, pantalla: pygame.Surface) -> None:
+    """Ejecuta los blits de las cajas recibiendo las cajas en lista
+
+    Args:
+        fondo_pantalla (_type_): imagen de fondo de pantalla
+        lista_cajas (list): lista de cajas a dibujar
+        pantalla (pygame.surface.Surface): Superficie donde se dibuja el programa
     """
     pantalla.blit(fondo_pantalla, (0, 0))
 

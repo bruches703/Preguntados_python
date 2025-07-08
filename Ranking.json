@@ -10,19 +10,14 @@
         "fecha": "2024-04-05"
     },
     {
+        "nombre": "david",
+        "puntuacion": 175,
+        "fecha": "2025-07-08T17:56:52.970259"
+    },
+    {
         "nombre": "Pedro",
         "puntuacion": 150,
         "fecha": "2024-03-10"
-    },
-    {
-        "nombre": "prueba",
-        "puntuacion": 150,
-        "fecha": "2025-07-07T00:51:34.769076"
-    },
-    {
-        "nombre": "david",
-        "puntuacion": 125,
-        "fecha": "2025-07-06T19:53:21.745142"
     },
     {
         "nombre": "Juan",
@@ -36,7 +31,7 @@
     },
     {
         "nombre": "david",
-        "puntuacion": 175,
-        "fecha": "2025-07-08T17:56:52.970259"
+        "puntuacion": 275,
+        "fecha": "2025-07-08"
     }
 ]

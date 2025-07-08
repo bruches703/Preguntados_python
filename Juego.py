@@ -26,8 +26,8 @@ boton_pasar_pregunta = crear_elemento_juego(TEXTURA_PASAR_PREGUNTA,ALTO_BOTON_CO
 boton_duplicador = crear_elemento_juego(TEXTURA_DUPLICADOR,ALTO_BOTON_COMODIN,ANCHO_BOTON_COMODIN,450,650)
 
 
-# lista_preguntas = cargar_preguntas_csv("preguntas.csv")
-lista_preguntas = cargar_preguntas_csv("test.csv")
+lista_preguntas = cargar_preguntas_csv("preguntas.csv")
+# lista_preguntas = cargar_preguntas_csv("test.csv")
 mezclar_lista(lista_preguntas)
 
 corriendo = True
@@ -39,7 +39,7 @@ def mostrar_juego(pantalla: pygame.Surface, cola_eventos: list[pygame.event.Even
     """ Muestra la ventana del juego y ejecuta el juego mismo
 
     Args:
-        pantalla (pygame.Surface): informacion de la pantalla
+        pantalla (pygame.surface.Surface): Superficie donde se dibuja el programa
         cola_eventos (list[pygame.event.Event]): cola de eventos que ocurren en el programa
         datos_juego (dict): diccionario con informacion del juego
         estado_comodines (dict): diccionario con los estados del comodin
@@ -147,5 +147,6 @@ def mostrar_juego(pantalla: pygame.Surface, cola_eventos: list[pygame.event.Even
     mostrar_texto(pantalla, f"VIDAS: {datos_juego['vidas']}", (10, 10), FUENTE_TEXTO)
     mostrar_texto(pantalla, f"PUNTUACION: {datos_juego['puntuacion']}", (10, 40), FUENTE_TEXTO)
     mostrar_texto(pantalla, f"TIEMPO: {datos_juego['tiempo_restante']} s", (300, 10), FUENTE_TEXTO)
+    mostrar_texto(pantalla, f"Dificultad: {datos_juego['dificultad']}", (300, 40), FUENTE_TEXTO)
 
     return retorno

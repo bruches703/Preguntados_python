@@ -21,12 +21,9 @@ boton_volver = crear_elemento_juego("Imagenes/Botones/boton_g.png",110,45,10,750
 
 def mostrar_cambiar_difucultad(pantalla: pygame.Surface, cola_eventos: list[pygame.event.Event], datos_juego: dict) -> str:
     """Muestra el menu de cambiar dificultad con las opciones de facil, normal y dificil
-    Facil: 5 vidas, 60 seg de juego, 
-    Normal:
-    Dificil:
 
     Args:
-        pantalla (pygame.Surface): informacion de la pantalla
+        pantalla (pygame.surface.Surface): Superficie donde se dibuja el programa
         cola_eventos (list[pygame.event.Event]): cola de eventos del programa
         datos_juego (dict): diccionario con los datos del juego
 
@@ -77,6 +74,7 @@ def mostrar_cambiar_difucultad(pantalla: pygame.Surface, cola_eventos: list[pyga
     mostrar_texto(pantalla, "NORMAL", (POS_X_BOTON_DIF + 50,POS_Y_BOTON_DIF + 225), FUENTE_TEXTO)
     mostrar_texto(pantalla, "DIFICIL", (POS_X_BOTON_DIF + 50,(POS_Y_BOTON_DIF + 225) + 200), FUENTE_TEXTO)
     mostrar_texto(pantalla, "VOLVER", (12,760), FUENTE_TEXTO)
+    
     return retorno
 
 

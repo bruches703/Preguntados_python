@@ -11,7 +11,7 @@ def mostrar_menu(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Event]) 
     """Muestra el menu principal y da acceso a las otras ventanas
 
     Args:
-        pantalla (pygame.Surface): datos de la pantalla
+        pantalla (pygame.surface.Surface): Superficie donde se dibuja el programa
         cola_eventos (list[pygame.event.Event]): eventos que ocurren en la ejecucion
 
     Returns:

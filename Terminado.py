@@ -12,7 +12,7 @@ cuadro_cancelar_guardado = crear_elemento_juego("Imagenes/Botones/boton_g.png",1
 def mostrar_fin_juego(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Event],datos_juego:dict,lista_rankings:list) -> str:
     """ Muestra la pantalla de fin de juego, permitiendo al usuario ingresar su nombre y ver su puntuación.
     Args:
-        pantalla (pygame.Surface): Superficie donde se dibuja la pantalla de fin de juego.
+        pantalla (pygame.surface.Surface): Superficie donde se dibuja el programa
         cola_eventos (list[pygame.event.Event]): Lista de eventos de Pygame.
         datos_juego (dict): Diccionario que contiene los datos del juego, incluyendo la puntuación y el nombre del jugador.
         lista_rankings (list): Lista de rankings para mostrar las puntuaciones más altas.
@@ -48,7 +48,7 @@ def mostrar_fin_juego(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Eve
             manejar_texto(cuadro_texto,tecla_presionada,bloc_mayus,datos_juego)   
             print(tecla_presionada)
     #Metanle un fondo de pantalla al game over
-    pantalla.fill(COLOR_BLANCO)
+    pantalla.blit(pygame.transform.scale(pygame.image.load("Imagenes/Fondos/fondo.png"),PANTALLA), (0, 0))
     pantalla.blit(cuadro_texto["superficie"],cuadro_texto["rectangulo"])
     pantalla.blit(cuadro_guardar_nombre["superficie"],cuadro_guardar_nombre["rectangulo"])
     pantalla.blit(cuadro_cancelar_guardado["superficie"],cuadro_cancelar_guardado["rectangulo"])
@@ -78,13 +78,9 @@ def guardar_nuevo_ranking(lista_ranking: list, nuevo_ranking: dict):
         lista_ranking (list): _description_
         nuevo_ranking (dict): _description_
     """
-    
-    if len(lista_ranking) == 10:
-        lista_ranking = ordenar_rankings(lista_ranking)
-        if lista_ranking [len(lista_ranking)-1]["puntuacion"] < nuevo_ranking["puntuacion"]:
-            lista_ranking[len(lista_ranking)-1] = nuevo_ranking
-    else:
-        lista_ranking.append(nuevo_ranking)
-        if os.path.exists ("Ranking.json"):
-            with open("Ranking.json", "w") as archivo:
-                json.dump(lista_ranking, archivo, indent=4)
+    nuevo_ranking["fecha"] = datetime.now().strftime("%Y-%m-%d")
+
+    lista_ranking.append(nuevo_ranking)
+    if os.path.exists ("Ranking.json"):
+        with open("Ranking.json", "w") as archivo:
+            json.dump(lista_ranking, archivo, indent=4)

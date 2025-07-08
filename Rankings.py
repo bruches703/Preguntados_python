@@ -10,6 +10,11 @@ boton_volver = crear_elemento_juego("Imagenes/Botones/boton_g.png",100,ANCHO_BOT
 
 
 def generar_podios() -> list:
+    """Genera los podios del ranking
+
+    Returns:
+        list: devuelve la lista de podios
+    """
     lista =[]
     pos_y_actual = 200
     pos_x_actual = 220
@@ -39,6 +44,17 @@ def generar_lista_ranking() -> list:
     return lista_rankings
 
 def mostrar_rankings(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Event],datos_juego:dict, lista_ranking: list) -> str:
+    """Muestra los rankings
+
+    Args:
+        pantalla (pygame.Surface): superficie principal donde se dibuja el programa
+        cola_eventos (list[pygame.event.Event]): cola de eventos que surgen durante la ejecucion del programa
+        datos_juego (dict): diccionario con datos del juego
+        lista_ranking (list): lista del ranking
+
+    Returns:
+        str: retorna como cadena el nombre de la siguiente pantalla a mostrar
+    """
     lista_ranking = ordenar_rankings(lista_ranking)
     boton_volver = crear_elemento_juego("Imagenes/Botones/boton_g.png",100,40,10,750)
     retorno = "rankings"
@@ -53,10 +69,11 @@ def mostrar_rankings(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Even
                     CLICK_SONIDO.play()
                     retorno = "menu"
 
+    mostrar_texto(boton_volver["superficie"],"Volver",(10,10),FUENTE_RESPUESTA,COLOR_NEGRO)
     pantalla.fill(COLOR_BLANCO)
     pantalla.blit(fondo_pantalla, (0, 0))
     pantalla.blit(boton_volver["superficie"],boton_volver["rectangulo"])
-    mostrar_texto(pantalla,"Volver",(boton_volver["rectangulo"].x + 10, boton_volver["rectangulo"].y + 10),FUENTE_RESPUESTA,COLOR_NEGRO)
+    
     mostrar_podios(pantalla,lista_ranking)
 
     return retorno
@@ -99,7 +116,7 @@ def mostrar_podios(pantalla: pygame.Surface, lista_rankings: list):
     """Muestra el TOP 10 del rankiing, si no hay 10 guardados, los podios no se generan
 
     Args:
-        pantalla (pygame.Surface): informacion de la pantalla
+        pantalla (pygame.surface.Surface): Superficie donde se dibuja el programa
         lista_rankings (list): lista de ranking
     """
     lista_podios = generar_podios()
