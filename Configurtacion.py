@@ -41,6 +41,10 @@ def mostrar_ajustes(pantalla: pygame.Surface, cola_eventos: list[pygame.event.Ev
                 CLICK_SONIDO.play()
                 pygame.mixer.music.stop()
                 datos_juego["estado_musica"] = "inactivo"
+            
+            elif boton_cambiar_dificultad["rectangulo"].collidepoint(evento.pos):
+                CLICK_SONIDO.play()
+                retorno = "configurar_dificultad"
 
             elif boton_volver["rectangulo"].collidepoint(evento.pos):
                 CLICK_SONIDO.play()
@@ -54,32 +58,20 @@ def mostrar_ajustes(pantalla: pygame.Surface, cola_eventos: list[pygame.event.Ev
     return retorno
 
 def ejecucion_de_pantalla_configuracion(pantalla: pygame.surface.Surface, datos_juego: dict) -> None:
-    pantalla.blit(fondo_pantalla, (0, 0))
 
-    mostrar_texto(boton_volver["superficie"], "VOLVER", (10, 10), FUENTE_PREGUNTA, COLOR_NEGRO)
+    mostrar_texto(boton_volver["superficie"], "VOLVER", (10, 10), FUENTE_PREGUNTA , COLOR_NEGRO)
     mostrar_texto(boton_cambiar_dificultad["superficie"], "CAMBIAR DIFICULTAD", (30, 25), FUENTE_PREGUNTA, COLOR_NEGRO)
 
-    pantalla.blit(boton_suma["superficie"], boton_suma["rectangulo"])
-    pantalla.blit(boton_resta["superficie"], boton_resta["rectangulo"])
-    pantalla.blit(boton_volver["superficie"], boton_volver["rectangulo"])
-    pantalla.blit(boton_audio_off["superficie"], boton_audio_off["rectangulo"])
-    pantalla.blit(boton_cambiar_dificultad["superficie"], boton_cambiar_dificultad["rectangulo"])
+    ejecutar_blits_configuracion(fondo_pantalla,[boton_suma,boton_resta,boton_volver,boton_audio_off,boton_cambiar_dificultad],pantalla)
 
     texto_volver = FUENTE_PREGUNTA.render("VOLVER", True, COLOR_NEGRO)
     texto_rect = texto_volver.get_rect(center=boton_volver["rectangulo"].center)
     pantalla.blit(texto_volver, texto_rect)
 
     # --- BARRA DE VOLUMEN ---
-    pygame.draw.rect(pantalla, COLOR_AZUL, rect_barra_fondo, 2)
-    volumen_proporcion = datos_juego["volumen_musica"] / 100
-    ancho_barra_actual = BARRA_ANCHO_MAX * volumen_proporcion
-    rect_barra_actual = pygame.Rect(BARRA_POS_X, BARRA_POS_Y, ancho_barra_actual, BARRA_ALTO)
-    pygame.draw.rect(pantalla, COLOR_VERDE, rect_barra_actual)
-    texto_vol = FUENTE_VOLUMEN.render(f"{datos_juego['volumen_musica']}%", True, COLOR_NEGRO)
-    texto_vol_rect = texto_vol.get_rect(center=(BARRA_POS_X + BARRA_ANCHO_MAX // 2, 180))
-    pantalla.blit(texto_vol, texto_vol_rect)
+    ajustar_volumen(pantalla, datos_juego)
 
-    #  Dibujar botón con fondo según estado
+    #  Dibujar botón con fondo según estado del audio
     if datos_juego["estado_musica"] == "activo":
         color_boton_on = COLOR_VERDE
         color_boton_off = COLOR_ROJO
@@ -92,3 +84,31 @@ def ejecucion_de_pantalla_configuracion(pantalla: pygame.surface.Surface, datos_
     pantalla.blit(boton_audio_on["superficie"], boton_audio_on["rectangulo"])
     pantalla.blit(boton_audio_off["superficie"], boton_audio_off["rectangulo"])
 
+def ajustar_volumen(pantalla: pygame.Surface, datos_juego: dict) -> None:
+    """ajusta el volumen y ejecuta los comandos para la interaccion de la
+    barra de volumen
+
+    Args:
+        pantalla (pygame.Surface): informacion de la pantalla
+        datos_juego (dict): diccionario con los datos del juego
+    """
+    pygame.draw.rect(pantalla, COLOR_AZUL, rect_barra_fondo, 2)
+    volumen_proporcion = datos_juego["volumen_musica"] / 100
+    ancho_barra_actual = BARRA_ANCHO_MAX * volumen_proporcion
+    rect_barra_actual = pygame.Rect(BARRA_POS_X, BARRA_POS_Y, ancho_barra_actual, BARRA_ALTO)
+    pygame.draw.rect(pantalla, COLOR_VERDE, rect_barra_actual)
+    texto_vol = FUENTE_VOLUMEN.render(f"{datos_juego['volumen_musica']}%", True, COLOR_NEGRO)
+    texto_vol_rect = texto_vol.get_rect(center=(BARRA_POS_X + BARRA_ANCHO_MAX // 2, 180))
+    pantalla.blit(texto_vol, texto_vol_rect)
+
+def ejecutar_blits_configuracion(fondo_pantalla, lista_botones: list, pantalla: pygame.Surface) -> None:
+    """Ejecuta los blitz de la ventana configuracion
+
+    Args:
+        fondo_pantalla (_type_): fondo de pantalla
+        lista_botones (list): lista de botones
+        pantalla (pygame.Surface): informacion sobre la pantalla
+    """
+    pantalla.blit(fondo_pantalla, (0, 0))
+    for boton in lista_botones:
+        pantalla.blit(boton["superficie"], boton["rectangulo"])

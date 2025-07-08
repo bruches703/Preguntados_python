@@ -46,7 +46,7 @@ def mostrar_fin_juego(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Eve
             tecla_presionada = pygame.key.name(evento.key)    
             bloc_mayus = pygame.key.get_mods()
             manejar_texto(cuadro_texto,tecla_presionada,bloc_mayus,datos_juego)   
-    
+            print(tecla_presionada)
     #Metanle un fondo de pantalla al game over
     pantalla.fill(COLOR_BLANCO)
     pantalla.blit(cuadro_texto["superficie"],cuadro_texto["rectangulo"])

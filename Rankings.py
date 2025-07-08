@@ -96,6 +96,12 @@ def ordenar_rankings(lista_rankings: list) -> list:
 
 
 def mostrar_podios(pantalla: pygame.Surface, lista_rankings: list):
+    """Muestra el TOP 10 del rankiing, si no hay 10 guardados, los podios no se generan
+
+    Args:
+        pantalla (pygame.Surface): informacion de la pantalla
+        lista_rankings (list): lista de ranking
+    """
     lista_podios = generar_podios()
     for i, podio in enumerate(lista_podios):
         if i < len(lista_rankings):
@@ -105,8 +111,8 @@ def mostrar_podios(pantalla: pygame.Surface, lista_rankings: list):
             # Centramos el texto dentro del podio
             mostrar_texto(
                 pantalla,
-                f"{i+1}. {nombre} - {puntuacion}",
-                (podio["rectangulo"].x + 10, podio["rectangulo"].y + 20),
+                f"Puesto: {i+1} - {nombre} - {puntuacion}",
+                (podio["rectangulo"].x + 30, podio["rectangulo"].y + 20),
                 FUENTE_RESPUESTA,
-                COLOR_NEGRO
+                COLOR_BLANCO
             )

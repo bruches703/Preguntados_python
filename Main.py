@@ -7,6 +7,7 @@ from Rankings import *
 from Terminado import *
 from Playlist import *
 from Funciones_comodines import *
+from Configurar_dificultad import *
 import random
 
 
@@ -16,21 +17,26 @@ icono = pygame.image.load("Imagenes/Iconos/Lapiz.png")
 pygame.display.set_icon(icono)
 pantalla = pygame.display.set_mode(PANTALLA)
 
-datos_juego = {"puntuacion":0,
-               "vidas":CANTIDAD_VIDAS,
-               "nombre":"",
-               "tiempo_restante":CANTIDAD_TIEMPO,
-               "indice":0,
-               "volumen_musica":20,
-               "estado_musica" : "activo",
-               "respuesta_descartada" : [],
-                "estado": ""}
+datos_juego = { 
+                "puntuacion":0,
+                "vidas":CANTIDAD_VIDAS,
+                "nombre":"",
+                "tiempo_restante":CANTIDAD_TIEMPO,
+                "indice":0,
+                "volumen_musica":20,
+                "estado_musica" : "activo",
+                "respuesta_descartada" : [],
+                "estado": "",
+                "dificultad": "normal",
+                "puntos_por_acierto" : 0
+                }
 
-estado_comodines ={ "comodin_activo": False,
+estado_comodines = { 
+                    "comodin_activo": False,
                     "estdo_pasar_pregunta" : True,
                     "estdo_bomba" : True,
-                    "estdo_duplicado" : False, #No esta duplicando
-                    "duplica_puntos" : False,
+                    "estdo_duplicado" : False,
+                    "duplica_puntos" : False, #No esta duplicando+
                     "estado_doble_chance": None
                    } 
 corriendo = True
@@ -84,6 +90,8 @@ while corriendo:
         ventana_actual = mostrar_rankings(pantalla, cola_eventos, datos_juego, lista_rankings)
     elif ventana_actual == "terminado":
         ventana_actual = mostrar_fin_juego(pantalla, cola_eventos, datos_juego, lista_rankings)
+    elif ventana_actual == "configurar_dificultad":
+        ventana_actual = mostrar_cambiar_difucultad(pantalla, cola_eventos, datos_juego)
     elif ventana_actual == "salir":
         corriendo = False
 

@@ -94,6 +94,7 @@ def activar_boton_doble_chance(estado_comodines: dict, boton: dict) -> None:
         estado_comodines (dict): diccionario de los estados de los comodines
         boton (dict): boton a editar para 
     """
+    estado_comodines["estado_doble_chance"] = False  # Se desactiva si estaba activ
     estado_comodines["comodin_activo"] = True
     estado_comodines["estado_doble_chance"] = "activo"
     CLICK_SONIDO.play()
@@ -115,7 +116,7 @@ def ejecucion_doble_chance(estado_comodines: dict, datos_juego: dict, lista_resp
                 limpiar_superficie(lista_respuestas[i], "Imagenes/Botones/boton_r.png", ANCHO_BOTON, ALTO_BOTON)
         estado_comodines["estado_doble_chance"] = "usada"  # Marca que ya usó la primera chance
     elif estado_comodines.get("estado_doble_chance", False) == "usada":
-        # datos_juego["vidas"] -= 1
+        datos_juego["vidas"] -= 1
         # Sin depender del resultado, el juego continuara 
         for i in range(len(lista_respuestas)):
             if i + 1 == pregunta_actual["respuesta_correcta"]:

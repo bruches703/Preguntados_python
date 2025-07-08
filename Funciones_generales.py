@@ -42,10 +42,21 @@ def reiniciar_estadisticas(datos_juego:dict, estado_comodines : dict) -> None:
         datos_juego (dict): Diccionario que contiene los datos del juego.
     """
     # estadisticas del juego
+    if datos_juego["dificultad"] == "facil":
+        datos_juego["vidas"] = CANTIDAD_VIDAS
+        datos_juego["tiempo_restante"] = 50
+        datos_juego["puntos_por_acierto"] = PUNTUACION_ACIERTO -25
+    elif datos_juego["dificultad"] == "normal":
+        datos_juego["vidas"] = CANTIDAD_VIDAS - 1
+        datos_juego["tiempo_restante"] = 40
+        datos_juego["puntos_por_acierto"] = PUNTUACION_ACIERTO
+    elif datos_juego["dificultad"] == "dificil":
+        datos_juego["vidas"] = CANTIDAD_VIDAS - 2
+        datos_juego["tiempo_restante"] = 30
+        datos_juego["puntos_por_acierto"] = PUNTUACION_ACIERTO + 25
+
     datos_juego["puntuacion"] = 0
-    datos_juego["vidas"] = CANTIDAD_VIDAS
     datos_juego["nombre"] = ""
-    datos_juego["tiempo_restante"] = 30
     datos_juego["respuestas_descartadas"] = []
     datos_juego["estado"] = "jugando"
     datos_juego["respuestas_consecutivas"] = 0
@@ -56,29 +67,34 @@ def reiniciar_estadisticas(datos_juego:dict, estado_comodines : dict) -> None:
     estado_comodines["estdo_bomba"] = True
     estado_comodines["duplica_puntos"] = False
     estado_comodines["estado_doble_chance"] = None
+    estado_comodines["estdo_duplicado"] = True
 
-def verificar_respuesta(datos_juego:dict, pregunta:dict, respuesta:int, duplica_puntos: bool, doble_chance: bool) -> bool:
+def verificar_respuesta(datos_juego:dict, pregunta:dict, respuesta:int, estado_comodines: dict) -> bool:
     """Verifica si la respuesta dada es correcta y actualiza las estadísticas del juego.
     Args:
         datos_juego (dict): Diccionario que contiene los datos del juego.
         pregunta (dict): Pregunta a verificar.
         respuesta (int): Respuesta dada por el jugador.
-        duplica_puntos (bool): Booleano que marca True cuando tiene que duplicar los puntos y False
-        cuando los puntos se mantienen normales
+        estado_comodines (dict): diccionario con el estado a evaluar.
     Returns:
         bool: True si la respuesta es correcta, False en caso contrario.
     """
-    if duplica_puntos:
-        puntos_a_sumar = PUNTUACION_ACIERTO * 2
-    else:
-        puntos_a_sumar = PUNTUACION_ACIERTO
     
+    if estado_comodines["duplica_puntos"]:
+        puntos_a_sumar = datos_juego["puntos_por_acierto"] * 2
+        estado_comodines["duplica_puntos"] = False
+        print(puntos_a_sumar)
+    else:
+        puntos_a_sumar = datos_juego["puntos_por_acierto"]
+        
+    print(puntos_a_sumar)
     
     if respuesta == pregunta["respuesta_correcta"]:
         datos_juego["puntuacion"] += puntos_a_sumar
         retorno = True
     else:
-        if doble_chance:
+
+        if estado_comodines["estado_doble_chance"] != "activo" and datos_juego["puntuacion"] > 0:
             datos_juego["puntuacion"] -= PUNTUACION_ERROR
             retorno = False    
         else:

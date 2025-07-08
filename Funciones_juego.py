@@ -44,15 +44,12 @@ def ejecutar_respuesta_correcta(datos_juego: dict, lista_respuestas: list, estad
             limpiar_superficie(lista_respuestas[i], "Imagenes/Botones/boton_r.png", ANCHO_BOTON, ALTO_BOTON)
     datos_juego["estado"] = "esperando"
     datos_juego["temporizador_respuesta"] = pygame.time.get_ticks()
-    estado_comodines["estado_doble_chance"] = False  # Se desactiva si estaba activ
+    
 
-def ejecutar_blit_juego(fondo_pantalla, caja_pregunta,boton_bomba,boton_duplicador,boton_doble_oportunidad,boton_pasar_pregunta,boton_rendirse,pantalla) -> None:
+def ejecutar_blit_juego(fondo_pantalla, lista_cajas, pantalla: pygame.Surface) -> None:
     """Ejecuta todos los blit del archivo "juego.py"
     """
     pantalla.blit(fondo_pantalla, (0, 0))
-    pantalla.blit(caja_pregunta["superficie"], caja_pregunta["rectangulo"])
-    pantalla.blit(boton_bomba["superficie"],boton_bomba["rectangulo"])
-    pantalla.blit(boton_duplicador["superficie"],boton_duplicador["rectangulo"])
-    pantalla.blit(boton_doble_oportunidad["superficie"],boton_doble_oportunidad["rectangulo"])
-    pantalla.blit(boton_pasar_pregunta["superficie"],boton_pasar_pregunta["rectangulo"])
-    pantalla.blit(boton_rendirse["superficie"],boton_rendirse["rectangulo"])
+
+    for cajas in lista_cajas:
+        pantalla.blit(cajas["superficie"],cajas["rectangulo"])

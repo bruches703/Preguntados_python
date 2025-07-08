@@ -36,6 +36,17 @@ evento_tiempo = pygame.USEREVENT
 pygame.time.set_timer(evento_tiempo,1000)
 
 def mostrar_juego(pantalla: pygame.Surface, cola_eventos: list[pygame.event.Event], datos_juego: dict, estado_comodines: dict) -> str:
+    """ Muestra la ventana del juego y ejecuta el juego mismo
+
+    Args:
+        pantalla (pygame.Surface): informacion de la pantalla
+        cola_eventos (list[pygame.event.Event]): cola de eventos que ocurren en el programa
+        datos_juego (dict): diccionario con informacion del juego
+        estado_comodines (dict): diccionario con los estados del comodin
+
+    Returns:
+        str: devuelve una cadena que identifica el estado del juego
+    """
     retorno = "juego"
     contador_correctas = 0
     # manejar pregunta actual
@@ -52,14 +63,15 @@ def mostrar_juego(pantalla: pygame.Surface, cola_eventos: list[pygame.event.Even
         retorno = "terminado"
 
     for evento in cola_eventos:
-        respuesta = None
-
+        respuesta = None        
+    
         if evento.type == pygame.QUIT:
             retorno = "salir"
         elif evento.type == pygame.MOUSEBUTTONDOWN:
             if evento.button == 1 and datos_juego["estado"] == "jugando" :
 
 #----------------------------------------------------------------------
+
                 # Comodin pasar pregunta
                 if boton_pasar_pregunta["rectangulo"].collidepoint(evento.pos) and estado_comodines["estdo_pasar_pregunta"]:
                     # modular preguntas
@@ -72,10 +84,10 @@ def mostrar_juego(pantalla: pygame.Surface, cola_eventos: list[pygame.event.Even
                     activar_boton_bomba(boton_bomba, estado_comodines, lista_respuestas, pregunta_actual)
 
                 # Comodin duplicador
-                elif boton_duplicador["rectangulo"].collidepoint(evento.pos) and not estado_comodines["duplica_puntos"]:
+                elif boton_duplicador["rectangulo"].collidepoint(evento.pos) and not estado_comodines["duplica_puntos"] and estado_comodines["estdo_duplicado"]:
                     activcar_boton_duplicador(estado_comodines, boton_duplicador)
                 # Comodin Doble chance
-                elif (boton_doble_oportunidad["rectangulo"].collidepoint(evento.pos)) and (estado_comodines["estado_doble_chance"] is None) and not estado_comodines["comodin_activo"]:
+                elif boton_doble_oportunidad["rectangulo"].collidepoint(evento.pos) and estado_comodines["estado_doble_chance"] is None and not estado_comodines["comodin_activo"]:
                     activar_boton_doble_chance(estado_comodines, boton_doble_oportunidad)
 # ---------------------------------------------------------------------
                 elif boton_rendirse["rectangulo"].collidepoint(evento.pos):
@@ -85,7 +97,7 @@ def mostrar_juego(pantalla: pygame.Surface, cola_eventos: list[pygame.event.Even
                     # detectar click sobre las respuestas normalmente
                     respuesta = obtener_respuesta_click(lista_respuestas, evento.pos)
                     if respuesta is not None:
-                        es_correcta = verificar_respuesta(datos_juego, pregunta_actual, respuesta, estado_comodines["duplica_puntos"], estado_comodines.get("estado_doble_chance", False))
+                        es_correcta = verificar_respuesta(datos_juego, pregunta_actual, respuesta,  estado_comodines)
                             # Ejecucion normal sin doble chance
                         if es_correcta:
                             ejecutar_respuesta_correcta(datos_juego, lista_respuestas, estado_comodines, pregunta_actual)
@@ -114,9 +126,12 @@ def mostrar_juego(pantalla: pygame.Surface, cola_eventos: list[pygame.event.Even
             pregunta_actual = cambiar_pregunta(lista_preguntas, datos_juego['indice'], caja_pregunta, lista_respuestas)
             datos_juego["estado"] = "jugando"
             estado_comodines["comodin_activo"] = False
-            estado_comodines["duplica_puntos"] = False
+
+            # Desactiva la doble chance si estaba activa y escogio la respuesta correcta
+            if estado_comodines.get("estado_doble_chance", False) == "activo":
+                estado_comodines["estado_doble_chance"] = "desactivado"
     
-    ejecutar_blit_juego(fondo_pantalla, caja_pregunta,boton_bomba,boton_duplicador,boton_doble_oportunidad,boton_pasar_pregunta,boton_rendirse,pantalla)
+    ejecutar_blit_juego(fondo_pantalla, [caja_pregunta,boton_bomba,boton_duplicador,boton_doble_oportunidad,boton_pasar_pregunta,boton_rendirse],pantalla)
 
     # mostrar las respuestas
     for i in range(len(lista_respuestas)):

@@ -8,6 +8,15 @@ print(lista_botones)
 fondo_menu = pygame.transform.scale(pygame.image.load("Imagenes/Fondos/fondo.png"),PANTALLA)
 
 def mostrar_menu(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Event]) -> str:
+    """Muestra el menu principal y da acceso a las otras ventanas
+
+    Args:
+        pantalla (pygame.Surface): datos de la pantalla
+        cola_eventos (list[pygame.event.Event]): eventos que ocurren en la ejecucion
+
+    Returns:
+        str: devuelve el proximo acceso a ventana
+    """
     retorno = "menu"
     #Gestionar Eventos
     for evento in cola_eventos:
