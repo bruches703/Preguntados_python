@@ -5,7 +5,7 @@ import os
 
 from Constantes import *
 from Funciones_generales import *
-def sumar_bonus_vida(datos_juego: dict, contador_correctas: int) -> int:
+def sumar_bonus(datos_juego: dict, contador_correctas: int) -> int:
     """Suma una vida si las respuestas consecutivas llegan a 5 y devuelve 0. Si no llega a 5
     devuelve el mismo numero
 
@@ -17,9 +17,14 @@ def sumar_bonus_vida(datos_juego: dict, contador_correctas: int) -> int:
         int: retorna 0 para reiniciar las respuestas consecutivas y aumenta en 1 las vidas, o devuelve las
         respuestas consecutivas
     """
-
-    if contador_correctas == 5:
+    
+    if contador_correctas == 5 and datos_juego["dificultad"] == "normal":
         datos_juego["vidas"] += 1
+        datos_juego["tiempo_restante"] += 3
+        return 0
+    elif contador_correctas == 3 and datos_juego["dificultad"] == "dificil":
+        datos_juego["vidas"] += 1
+        datos_juego["tiempo_restante"] += 5
         return 0
     else:
         return contador_correctas
@@ -36,7 +41,7 @@ def ejecutar_respuesta_correcta(datos_juego: dict, lista_respuestas: list, estad
     """
     CLICK_SONIDO.play()
     datos_juego["respuestas_consecutivas"] += 1
-    datos_juego["respuestas_consecutivas"] = sumar_bonus_vida(datos_juego, datos_juego["respuestas_consecutivas"])
+    datos_juego["respuestas_consecutivas"] = sumar_bonus(datos_juego, datos_juego["respuestas_consecutivas"])
     for i in range(len(lista_respuestas)):
         if i + 1 == pregunta_actual["respuesta_correcta"]:
             limpiar_superficie(lista_respuestas[i], "Imagenes/Botones/boton_v.png", ANCHO_BOTON, ALTO_BOTON)
