@@ -62,7 +62,7 @@ def ejecucion_de_pantalla_configuracion(pantalla: pygame.surface.Surface, datos_
     mostrar_texto(boton_volver["superficie"], "VOLVER", (10, 10), FUENTE_PREGUNTA , COLOR_NEGRO)
     mostrar_texto(boton_cambiar_dificultad["superficie"], "CAMBIAR DIFICULTAD", (30, 25), FUENTE_PREGUNTA, COLOR_NEGRO)
 
-    ejecutar_blits_configuracion(fondo_pantalla,[boton_suma,boton_resta,boton_volver,boton_audio_off,boton_cambiar_dificultad],pantalla)
+    ejecutar_blits(fondo_pantalla,[boton_suma,boton_resta,boton_volver,boton_audio_off,boton_cambiar_dificultad],pantalla)
 
     texto_volver = FUENTE_PREGUNTA.render("VOLVER", True, COLOR_NEGRO)
     texto_rect = texto_volver.get_rect(center=boton_volver["rectangulo"].center)
@@ -101,14 +101,3 @@ def ajustar_volumen(pantalla: pygame.Surface, datos_juego: dict) -> None:
     texto_vol_rect = texto_vol.get_rect(center=(BARRA_POS_X + BARRA_ANCHO_MAX // 2, 180))
     pantalla.blit(texto_vol, texto_vol_rect)
 
-def ejecutar_blits_configuracion(fondo_pantalla, lista_botones: list, pantalla: pygame.Surface) -> None:
-    """Ejecuta los blitz de la ventana configuracion
-
-    Args:
-        fondo_pantalla (_type_): fondo de pantalla
-        lista_botones (list): lista de botones
-        pantalla (pygame.Surface): informacion sobre la pantalla
-    """
-    pantalla.blit(fondo_pantalla, (0, 0))
-    for boton in lista_botones:
-        pantalla.blit(boton["superficie"], boton["rectangulo"])

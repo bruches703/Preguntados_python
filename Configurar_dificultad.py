@@ -44,7 +44,7 @@ def mostrar_cambiar_difucultad(pantalla: pygame.Surface, cola_eventos: list[pyga
             if boton_volver["rectangulo"].collidepoint(evento.pos):
                 CLICK_SONIDO.play()
                 return "ajustes"
-            
+    #--------------------Cambiar configuracion de dificultad------------------------- 
             elif boton_facil["rectangulo"].collidepoint(evento.pos):
                 CLICK_SONIDO.play()
                 datos_juego["dificultad"] = "facil"
@@ -54,19 +54,12 @@ def mostrar_cambiar_difucultad(pantalla: pygame.Surface, cola_eventos: list[pyga
             elif boton_dificil["rectangulo"].collidepoint(evento.pos):
                 CLICK_SONIDO.play()
                 datos_juego["dificultad"] = "dificil"
-
+    #--------------------------------------------------------------------------------
                 
             print(datos_juego["dificultad"])
-    pantalla.blit(fondo_menu, (0, 0))
-    pantalla.blit(boton_facil["superficie"], boton_facil["rectangulo"])
-    pantalla.blit(boton_normal["superficie"], boton_normal["rectangulo"])
-    pantalla.blit(boton_dificil["superficie"], boton_dificil["rectangulo"])
-    pantalla.blit(boton_volver["superficie"], boton_volver["rectangulo"])
 
-    pantalla.blit(caja_datos_facil["superficie"],caja_datos_facil["rectangulo"])
-    pantalla.blit(caja_datos_normal["superficie"],caja_datos_normal["rectangulo"])
-    pantalla.blit(caja_datos_dificil["superficie"],caja_datos_dificil["rectangulo"])
-
+    ejecutar_blits(fondo_menu,[boton_facil,boton_normal,boton_dificil,boton_volver,caja_datos_facil,caja_datos_normal, caja_datos_dificil],pantalla)
+#--------------------Mostrar los textos de las cajas sobre las dificultades------------------------- 
     mostrar_texto(caja_datos_facil["superficie"], "50 segundos de partida", (20,30), FUENTE_TEXTO)
     mostrar_texto(caja_datos_facil["superficie"], "Comienzas con 3 vidas", (20,60), FUENTE_TEXTO)
     mostrar_texto(caja_datos_facil["superficie"], "Con 5 respuestas consecutivas obtendras bonus de + 3 segundos", (20,90), FUENTE_TEXTO)     
@@ -79,6 +72,7 @@ def mostrar_cambiar_difucultad(pantalla: pygame.Surface, cola_eventos: list[pyga
     mostrar_texto(caja_datos_dificil["superficie"], "Comienzas con 3 vidas", (20,60), FUENTE_TEXTO)
     mostrar_texto(caja_datos_dificil["superficie"], "Con 3 respuestas consecutivas obtendras bonus de +1 vida, + 7 segundos", (20,90), FUENTE_TEXTO)
 
+#-----------------------------Textos de los botones------------------------- 
     mostrar_texto(pantalla, "FACIL", (POS_X_BOTON_DIF + 50,POS_Y_BOTON_DIF + 25), FUENTE_TEXTO)
     mostrar_texto(pantalla, "NORMAL", (POS_X_BOTON_DIF + 50,POS_Y_BOTON_DIF + 225), FUENTE_TEXTO)
     mostrar_texto(pantalla, "DIFICIL", (POS_X_BOTON_DIF + 50,(POS_Y_BOTON_DIF + 225) + 200), FUENTE_TEXTO)

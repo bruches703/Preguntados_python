@@ -86,7 +86,7 @@ def verificar_respuesta(datos_juego:dict, pregunta:dict, respuesta:int, estado_c
         print(puntos_a_sumar)
     else:
         puntos_a_sumar = datos_juego["puntos_por_acierto"]
-        
+
     print(puntos_a_sumar)
     
     if respuesta == pregunta["respuesta_correcta"]:
@@ -311,3 +311,11 @@ def reproducir_musica(pista: str, porcentaje_volumen, bandera_musica: bool):
     pygame.mixer.music.load(pista)
     pygame.mixer.music.play(-1)
     return bandera_musica
+
+def ejecutar_blits(fondo_pantalla, lista_cajas, pantalla: pygame.Surface) -> None:
+    """Ejecuta todos los blit del archivo "juego.py"
+    """
+    pantalla.blit(fondo_pantalla, (0, 0))
+
+    for cajas in lista_cajas:
+        pantalla.blit(cajas["superficie"],cajas["rectangulo"])

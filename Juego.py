@@ -131,7 +131,7 @@ def mostrar_juego(pantalla: pygame.Surface, cola_eventos: list[pygame.event.Even
             if estado_comodines.get("estado_doble_chance", False) == "activo":
                 estado_comodines["estado_doble_chance"] = "desactivado"
     
-    ejecutar_blit_juego(fondo_pantalla, [caja_pregunta,boton_bomba,boton_duplicador,boton_doble_oportunidad,boton_pasar_pregunta,boton_rendirse],pantalla)
+    ejecutar_blits(fondo_pantalla, [caja_pregunta,boton_bomba,boton_duplicador,boton_doble_oportunidad,boton_pasar_pregunta,boton_rendirse],pantalla)
 
     # mostrar las respuestas
     for i in range(len(lista_respuestas)):

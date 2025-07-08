@@ -53,10 +53,3 @@ def ejecutar_respuesta_correcta(datos_juego: dict, lista_respuestas: list, estad
     datos_juego["temporizador_respuesta"] = pygame.time.get_ticks()
     
 
-def ejecutar_blit_juego(fondo_pantalla, lista_cajas, pantalla: pygame.Surface) -> None:
-    """Ejecuta todos los blit del archivo "juego.py"
-    """
-    pantalla.blit(fondo_pantalla, (0, 0))
-
-    for cajas in lista_cajas:
-        pantalla.blit(cajas["superficie"],cajas["rectangulo"])
