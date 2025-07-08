@@ -4,56 +4,91 @@ from Funciones_generales import *
 
 pygame.init()
 
-boton_suma = crear_elemento_juego("Imagenes/Iconos/sonido_mas.png",60,60,420,200)
-boton_resta = crear_elemento_juego("Imagenes/Iconos/sonido_menos.png",60,60,20,200)
-boton_volver = crear_elemento_juego("Imagenes/Botones/boton_g.png",100,40,10,10)
-boton_silenciado = crear_elemento_juego("Imagenes/Iconos/sonido_cero.png",60,60,600,0)
+boton_suma = crear_elemento_juego("Imagenes/Iconos/sonido_mas.png",60,60,550,150)
+boton_resta = crear_elemento_juego("Imagenes/Iconos/sonido_menos.png",60,60,120,150)
+rect_barra_fondo = pygame.Rect(BARRA_POS_X, BARRA_POS_Y, BARRA_ANCHO_MAX, BARRA_ALTO)
+boton_volver = crear_elemento_juego("Imagenes/Botones/boton_g.png",100,40,10,750)
+boton_audio_off = crear_elemento_juego("Imagenes/Iconos/sonido_off.png",60,60,180,250)
+boton_audio_on = crear_elemento_juego("Imagenes/Iconos/sonido_on.png",60,60,480,250)
+boton_cambiar_dificultad = crear_elemento_juego("Imagenes/Botones/boton_g.png",400,80,150,400)
 
-def mostrar_ajustes(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Event],datos_juego:dict) -> str:
-    """Muestra la pantalla de ajustes del juego, permitiendo al usuario modificar el volumen de la música.
+fondo_pantalla = pygame.transform.scale(pygame.image.load("Imagenes/Fondos/Fondo_Configuracion.png"),PANTALLA)
 
-    Args:
-        pantalla (pygame.Surface): Superficie donde se dibuja la pantalla de ajustes.
-        cola_eventos (list[pygame.event.Event]): Lista de eventos de Pygame.
-        datos_juego (dict): Diccionario que contiene los datos del juego, incluyendo el volumen de la música.
-    Returns:
-        str: Retorna "ajustes" si se permanece en la pantalla de ajustes, " 
-    """
+def mostrar_ajustes(pantalla: pygame.Surface, cola_eventos: list[pygame.event.Event], datos_juego: dict) -> str:
+    """Muestra la pantalla de ajustes con control de volumen."""
     retorno = "ajustes"
     
-    for evento in cola_eventos:
-        if datos_juego["volumen_musica"] <= 0:
-            pantalla.blit(boton_silenciado["superficie"],(600,0))
 
+    for evento in cola_eventos:
         if evento.type == pygame.QUIT:
             retorno = "salir"
-        elif evento.type == pygame.MOUSEBUTTONDOWN:
-            if evento.button == 1:
-                if boton_suma["rectangulo"].collidepoint(evento.pos):
-                    if datos_juego["volumen_musica"] <= 95:
-                        datos_juego["volumen_musica"] += 5
-                        CLICK_SONIDO.play()
-                    else:
-                        ERROR_SONIDO.play()
-                elif boton_resta["rectangulo"].collidepoint(evento.pos):
-                    if datos_juego["volumen_musica"] > 0:
-                        datos_juego["volumen_musica"] -= 5
-                        CLICK_SONIDO.play()
-                    else: 
-                        ERROR_SONIDO.play()
-                elif boton_volver["rectangulo"].collidepoint(evento.pos):
-                    CLICK_SONIDO.play()
-                    retorno = "menu"
+        elif evento.type == pygame.MOUSEBUTTONDOWN and evento.button == 1:
+            if boton_suma["rectangulo"].collidepoint(evento.pos):
+                CLICK_SONIDO.play()
+                subir_volumen(datos_juego)
 
+            elif boton_resta["rectangulo"].collidepoint(evento.pos):
+                CLICK_SONIDO.play()
+                bajar_volumen(datos_juego)
 
-    pantalla.fill(COLOR_BLANCO)
+            elif boton_audio_on["rectangulo"].collidepoint(evento.pos) and datos_juego["estado_musica"] != "activo":
+                CLICK_SONIDO.play()
+                pygame.mixer.music.load("Sonidos/music_menu.mp3")
+                pygame.mixer.music.play(-1)
+                datos_juego["estado_musica"] = "activo"
+
+            elif boton_audio_off["rectangulo"].collidepoint(evento.pos) and datos_juego["estado_musica"] != "inactivo":
+                CLICK_SONIDO.play()
+                pygame.mixer.music.stop()
+                datos_juego["estado_musica"] = "inactivo"
+
+            elif boton_volver["rectangulo"].collidepoint(evento.pos):
+                CLICK_SONIDO.play()
+                retorno = "menu"
+
+        # Dibujar botones de audio según el estado actual
+
+    ejecucion_de_pantalla_configuracion(pantalla, datos_juego)
     
-    pantalla.blit(boton_suma["superficie"],boton_suma["rectangulo"])
-    pantalla.blit(boton_resta["superficie"],boton_resta["rectangulo"])
-    pantalla.blit(boton_volver["superficie"],boton_volver["rectangulo"])
-
     
-    mostrar_texto(pantalla,f"{datos_juego["volumen_musica"]} %",(200,200),FUENTE_VOLUMEN,COLOR_NEGRO)
-    mostrar_texto(boton_volver["superficie"],"VOLVER",(5,5),FUENTE_RESPUESTA,COLOR_BLANCO)
-
     return retorno
+
+def ejecucion_de_pantalla_configuracion(pantalla: pygame.surface.Surface, datos_juego: dict) -> None:
+    pantalla.blit(fondo_pantalla, (0, 0))
+
+    mostrar_texto(boton_volver["superficie"], "VOLVER", (10, 10), FUENTE_PREGUNTA, COLOR_NEGRO)
+    mostrar_texto(boton_cambiar_dificultad["superficie"], "CAMBIAR DIFICULTAD", (30, 25), FUENTE_PREGUNTA, COLOR_NEGRO)
+
+    pantalla.blit(boton_suma["superficie"], boton_suma["rectangulo"])
+    pantalla.blit(boton_resta["superficie"], boton_resta["rectangulo"])
+    pantalla.blit(boton_volver["superficie"], boton_volver["rectangulo"])
+    pantalla.blit(boton_audio_off["superficie"], boton_audio_off["rectangulo"])
+    pantalla.blit(boton_cambiar_dificultad["superficie"], boton_cambiar_dificultad["rectangulo"])
+
+    texto_volver = FUENTE_PREGUNTA.render("VOLVER", True, COLOR_NEGRO)
+    texto_rect = texto_volver.get_rect(center=boton_volver["rectangulo"].center)
+    pantalla.blit(texto_volver, texto_rect)
+
+    # --- BARRA DE VOLUMEN ---
+    pygame.draw.rect(pantalla, COLOR_AZUL, rect_barra_fondo, 2)
+    volumen_proporcion = datos_juego["volumen_musica"] / 100
+    ancho_barra_actual = BARRA_ANCHO_MAX * volumen_proporcion
+    rect_barra_actual = pygame.Rect(BARRA_POS_X, BARRA_POS_Y, ancho_barra_actual, BARRA_ALTO)
+    pygame.draw.rect(pantalla, COLOR_VERDE, rect_barra_actual)
+    texto_vol = FUENTE_VOLUMEN.render(f"{datos_juego['volumen_musica']}%", True, COLOR_NEGRO)
+    texto_vol_rect = texto_vol.get_rect(center=(BARRA_POS_X + BARRA_ANCHO_MAX // 2, 180))
+    pantalla.blit(texto_vol, texto_vol_rect)
+
+    #  Dibujar botón con fondo según estado
+    if datos_juego["estado_musica"] == "activo":
+        color_boton_on = COLOR_VERDE
+        color_boton_off = COLOR_ROJO
+    else: 
+        color_boton_off = COLOR_VERDE
+        color_boton_on = COLOR_ROJO
+    
+    pygame.draw.rect(pantalla, color_boton_on, boton_audio_on["rectangulo"], border_radius=10)
+    pygame.draw.rect(pantalla, color_boton_off, boton_audio_off["rectangulo"], border_radius=10)
+    pantalla.blit(boton_audio_on["superficie"], boton_audio_on["rectangulo"])
+    pantalla.blit(boton_audio_off["superficie"], boton_audio_off["rectangulo"])
+

@@ -8,10 +8,11 @@ pygame.init()
 
 boton_volver = crear_elemento_juego("Imagenes/Botones/boton_g.png",100,ANCHO_BOTON_VOLVER,ALTO_BOTON_VOLVER,750)
 
+
 def generar_podios() -> list:
     lista =[]
-    pos_y_actual = 40
-    pos_x_actual = 200
+    pos_y_actual = 200
+    pos_x_actual = 220
     ruta_fondo = ""
     for i in range(10):
         if i == 0:
@@ -23,7 +24,7 @@ def generar_podios() -> list:
         else:
             ruta_fondo = "Imagenes/Fondos/Fondo_podio.png"
         lista.append(crear_elemento_juego(ruta_fondo,ANCHO_CUADRADO_PODIO,ALTO_CUADRO_PODIO,pos_x_actual,pos_y_actual))
-        pos_y_actual +=70
+        pos_y_actual +=55
     return lista
     
 def generar_lista_ranking() -> list:
@@ -41,6 +42,7 @@ def mostrar_rankings(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Even
     lista_ranking = ordenar_rankings(lista_ranking)
     boton_volver = crear_elemento_juego("Imagenes/Botones/boton_g.png",100,40,10,750)
     retorno = "rankings"
+    fondo_pantalla = pygame.transform.scale(pygame.image.load("Imagenes/Fondos/Fondo de podios.png"), PANTALLA)
 
     for evento in cola_eventos:
         if evento.type == pygame.QUIT:
@@ -52,8 +54,9 @@ def mostrar_rankings(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Even
                     retorno = "menu"
 
     pantalla.fill(COLOR_BLANCO)
+    pantalla.blit(fondo_pantalla, (0, 0))
     pantalla.blit(boton_volver["superficie"],boton_volver["rectangulo"])
-    mostrar_texto(pantalla,"VOLVER",(boton_volver["rectangulo"].x + 5, boton_volver["rectangulo"].y + 5),FUENTE_RESPUESTA,COLOR_BLANCO)
+    mostrar_texto(pantalla,"Volver",(boton_volver["rectangulo"].x + 10, boton_volver["rectangulo"].y + 10),FUENTE_RESPUESTA,COLOR_NEGRO)
     mostrar_podios(pantalla,lista_ranking)
 
     return retorno

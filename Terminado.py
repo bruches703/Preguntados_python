@@ -27,7 +27,7 @@ def mostrar_fin_juego(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Eve
         elif evento.type == pygame.MOUSEBUTTONDOWN:
             
             #Cuando ingrese el nombre deberian haber botones que me permitan guardar los cambios
-            if evento.button == 1 and datos_juego["estado"] == "esperando":
+            if evento.button == 1 and datos_juego["estado"] == "terminado":
                 CLICK_SONIDO.play()
                 if cuadro_guardar_nombre["rectangulo"].collidepoint(evento.pos):
                     
@@ -45,7 +45,6 @@ def mostrar_fin_juego(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Eve
         elif evento.type == pygame.KEYDOWN:
             tecla_presionada = pygame.key.name(evento.key)    
             bloc_mayus = pygame.key.get_mods()
-            
             manejar_texto(cuadro_texto,tecla_presionada,bloc_mayus,datos_juego)   
     
     #Metanle un fondo de pantalla al game over

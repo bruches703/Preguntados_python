@@ -99,7 +99,7 @@ def activar_boton_doble_chance(estado_comodines: dict, boton: dict) -> None:
     CLICK_SONIDO.play()
     limpiar_superficie(boton,"Imagenes/Botones/off_Doble oportunidad.png",ANCHO_BOTON_COMODIN,ALTO_BOTON_COMODIN)
 
-def ejecucion_cambio_pregunta(estado_comodines: dict, datos_juego: dict, lista_respuestas: list, pregunta_actual: dict, respuesta: int) -> None:
+def ejecucion_doble_chance(estado_comodines: dict, datos_juego: dict, lista_respuestas: list, pregunta_actual: dict, respuesta: int) -> None:
     """Ejecucion de los comandos para que pueda tener una doble chance al fallar
 
     Args:
@@ -115,7 +115,7 @@ def ejecucion_cambio_pregunta(estado_comodines: dict, datos_juego: dict, lista_r
                 limpiar_superficie(lista_respuestas[i], "Imagenes/Botones/boton_r.png", ANCHO_BOTON, ALTO_BOTON)
         estado_comodines["estado_doble_chance"] = "usada"  # Marca que ya usó la primera chance
     elif estado_comodines.get("estado_doble_chance", False) == "usada":
-        datos_juego["vidas"] -= 1
+        # datos_juego["vidas"] -= 1
         # Sin depender del resultado, el juego continuara 
         for i in range(len(lista_respuestas)):
             if i + 1 == pregunta_actual["respuesta_correcta"]:

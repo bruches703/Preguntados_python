@@ -48,6 +48,7 @@ def reiniciar_estadisticas(datos_juego:dict, estado_comodines : dict) -> None:
     datos_juego["tiempo_restante"] = 30
     datos_juego["respuestas_descartadas"] = []
     datos_juego["estado"] = "jugando"
+    datos_juego["respuestas_consecutivas"] = 0
     
     # estadisticas de los comodines
     estado_comodines["comodin_activo"] = False
@@ -151,11 +152,11 @@ def crear_botones_menu() -> list:
         list: Lista de diccionarios, cada uno representando un botón del menú.
     """
     lista_botones = []
-    pos_y = 115
+    pos_y = 120
 
     for i in range(4):
-        boton = crear_elemento_juego("Imagenes/Botones/boton_a.png",ANCHO_BOTON,ALTO_BOTON,125,pos_y)
-        pos_y += 80
+        boton = crear_elemento_juego("Imagenes/Botones/boton_a.png",ANCHO_BOTON + 30,ALTO_BOTON + 10 ,70,pos_y)
+        pos_y += 130
         lista_botones.append(boton)
         
     return lista_botones
@@ -259,21 +260,38 @@ def crear_diccionario_pregunta(fila:str, separador:str = ',') -> dict:
         "respuesta_correcta": int(datos[5])
     }
 
-def sumar_bonus_vida(datos_juego: dict, respuestas_consecutivas: int) -> int:
-    """Suma una vida si las respuestas consecutivas llegan a 5 y devuelve 0. Si no llega a 5
-    devuelve el mismo numero
+def subir_volumen(datos_juego: dict) -> None:
+    """Bajar el volumen de musica
 
     Args:
-        datos_juego (dict): diccionario del jugador actual
-        respuestas_consecutivas (int): cantidad de respuestas correctas consecutivas que tuvo el jugador
-
-    Returns:
-        int: retorna 0 para reiniciar las respuestas consecutivas y aumenta en 1 las vidas, o devuelve las
-        respuestas consecutivas
+        datos_juego (dict): diccionario con los datos del juego
     """
-
-    if respuestas_consecutivas == 5:
-        datos_juego["vidas"] += 1
-        return 0
+    if datos_juego["volumen_musica"] <= 95:
+        datos_juego["volumen_musica"] += 5
+        pygame.mixer.music.set_volume(datos_juego["volumen_musica"] / 100)
+        CLICK_SONIDO.play()
     else:
-        return respuestas_consecutivas
+        ERROR_SONIDO.play()
+
+def bajar_volumen(datos_juego: dict) -> None:
+    """Bajar el volumen de musica
+
+    Args:
+        datos_juego (dict): diccionario con los datos del juego
+    """
+    if datos_juego["volumen_musica"] > 0:
+        datos_juego["volumen_musica"] -= 5
+        pygame.mixer.music.set_volume(datos_juego["volumen_musica"] / 100)
+        CLICK_SONIDO.play()
+    else: 
+        ERROR_SONIDO.play()
+
+def reproducir_musica(pista: str, porcentaje_volumen, bandera_musica: bool):
+    if bandera_musica:
+        bandera_musica = False
+    else:
+        bandera_musica = True
+    pygame.mixer.music.stop()
+    pygame.mixer.music.load(pista)
+    pygame.mixer.music.play(-1)
+    return bandera_musica

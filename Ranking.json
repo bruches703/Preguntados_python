@@ -33,6 +33,20 @@
         "nombre": "Maria",
         "puntuacion": 75,
         "fecha": "2024-02-20"
-
+    },
+    {
+        "nombre": "Jorge",
+        "puntuacion": 75,
+        "fecha": "2024-02-20"
+    },
+    {
+        "nombre": "aaaaa",
+        "puntuacion": 0,
+        "fecha": "2025-07-07T19:21:43.222323"
+    },
+    {
+        "nombre": "nuevo",
+        "puntuacion": 550,
+        "fecha": "2025-07-07T19:28:37.462612"
     }
 ]
