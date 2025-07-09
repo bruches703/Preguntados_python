@@ -26,8 +26,8 @@ boton_pasar_pregunta = crear_elemento_juego(TEXTURA_PASAR_PREGUNTA,ALTO_BOTON_CO
 boton_duplicador = crear_elemento_juego(TEXTURA_DUPLICADOR,ALTO_BOTON_COMODIN,ANCHO_BOTON_COMODIN,450,650)
 
 
-lista_preguntas = cargar_preguntas_csv("preguntas.csv")
-# lista_preguntas = cargar_preguntas_csv("test.csv")
+# lista_preguntas = cargar_preguntas_csv("preguntas.csv")
+lista_preguntas = cargar_preguntas_csv("test.csv")
 mezclar_lista(lista_preguntas)
 
 corriendo = True

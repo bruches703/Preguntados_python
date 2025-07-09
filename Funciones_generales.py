@@ -46,10 +46,12 @@ def reiniciar_estadisticas(datos_juego:dict, estado_comodines : dict) -> None:
         datos_juego["vidas"] = CANTIDAD_VIDAS
         datos_juego["tiempo_restante"] = 50
         datos_juego["puntos_por_acierto"] = PUNTUACION_ACIERTO -25
+
     elif datos_juego["dificultad"] == "normal":
         datos_juego["vidas"] = CANTIDAD_VIDAS - 1
         datos_juego["tiempo_restante"] = 40
         datos_juego["puntos_por_acierto"] = PUNTUACION_ACIERTO
+        
     elif datos_juego["dificultad"] == "dificil":
         datos_juego["vidas"] = CANTIDAD_VIDAS - 2
         datos_juego["tiempo_restante"] = 30

@@ -36,12 +36,12 @@ estado_comodines = {
                     "estdo_pasar_pregunta" : True,
                     "estdo_bomba" : True,
                     "estdo_duplicado" : False,
-                    "duplica_puntos" : False, #No esta duplicando+
+                    "duplica_puntos" : False, #No esta duplicando
                     "estado_doble_chance": None
                    } 
 corriendo = True
 reloj = pygame.time.Clock()
-bandera_musica = False
+bandera_musica = True
 ventana_actual = "menu"
 
 #Ustedes la van a cargar del json
@@ -56,12 +56,12 @@ while corriendo:
     if ventana_actual == "menu":
         porcentaje_volumen = datos_juego["volumen_musica"] / 100
         
-        if not bandera_musica and datos_juego["estado_musica"]:
+        if bandera_musica and datos_juego["estado_musica"] == "activo":
             pygame.mixer.music.load("Sonidos/music_menu.mp3")
             pygame.mixer.music.set_volume(datos_juego["volumen_musica"] / 100)
             pygame.mixer.music.set_volume(porcentaje_volumen)
             pygame.mixer.music.play(-1)
-            bandera_musica = True
+            bandera_musica = False
         
         reiniciar_estadisticas(datos_juego, estado_comodines)
         datos_juego["indice"] = 0
@@ -72,14 +72,13 @@ while corriendo:
     elif ventana_actual == "juego":
         porcentaje_volumen = datos_juego["volumen_musica"] / 100
 
-        if bandera_musica and datos_juego["estado_musica"]:
+        if not bandera_musica and datos_juego["estado_musica"] == "activo":
             pygame.mixer.music.stop()  # Detenemos la música del menú
-            bandera_musica = False     # Permitimos cargar otra pista
+            bandera_musica = True     # Permitimos cargar otra pista
             pista = playlist[random.randint(0, len(playlist) - 1)]
             pygame.mixer.music.load(pista)
             pygame.mixer.music.set_volume(porcentaje_volumen)
             pygame.mixer.music.play(-1)
-            bandera_musica = False
 
         ventana_actual = mostrar_juego(pantalla, cola_eventos, datos_juego, estado_comodines)
 

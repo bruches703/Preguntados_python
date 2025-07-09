@@ -42,12 +42,9 @@ def activar_boton_pasar_pregunta(caja_pregunta, lista_respuestas: list,datos_jue
         mezclar_lista(lista_preguntas)
         datos_juego['indice'] = 0        
       
-
-
     datos_juego["estado"] = "jugando"
     datos_juego["temporizador_respuesta"] = 0
-    estado_comodines["comodin_activo"] = False
-    estado_comodines["estado_doble_chance"] = False
+    
 
 
     return cambiar_pregunta(lista_preguntas, datos_juego['indice'], caja_pregunta, lista_respuestas)
@@ -59,7 +56,6 @@ def activcar_boton_duplicador(estado_comodines: dict, boton_duplicador: dict) ->
         estado_comodines (dict): estado de los comodines
         boton_duplicador (dict): boton cambiar la superficie
     """
-    estado_comodines["comodin_activo"] = False
     estado_comodines["estdo_duplicado"] = False
     estado_comodines["duplica_puntos"] = True
     CLICK_SONIDO.play()
@@ -115,6 +111,7 @@ def ejecucion_doble_chance(estado_comodines: dict, datos_juego: dict, lista_resp
             if i + 1 == respuesta:
                 limpiar_superficie(lista_respuestas[i], "Imagenes/Botones/boton_r.png", ANCHO_BOTON, ALTO_BOTON)
         estado_comodines["estado_doble_chance"] = "usada"  # Marca que ya usó la primera chance
+
     elif estado_comodines.get("estado_doble_chance", False) == "usada":
         datos_juego["vidas"] -= 1
         # Sin depender del resultado, el juego continuara 
