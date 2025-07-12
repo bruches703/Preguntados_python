@@ -53,7 +53,7 @@ def mostrar_fin_juego(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Eve
     pantalla.blit(cuadro_guardar_nombre["superficie"],cuadro_guardar_nombre["rectangulo"])
     pantalla.blit(cuadro_cancelar_guardado["superficie"],cuadro_cancelar_guardado["rectangulo"])
 
-    mostrar_texto(pantalla,f"Usted obtuvo: {datos_juego["puntuacion"]} puntos",(250,100),FUENTE_TEXTO,COLOR_NEGRO)
+    mostrar_texto(pantalla,f"Usted obtuvo: {datos_juego['puntuacion']} puntos",(250,100),FUENTE_TEXTO,COLOR_NEGRO)
     mostrar_texto(cuadro_cancelar_guardado["superficie"], "Salir", (16,16), FUENTE_TEXTO, COLOR_NEGRO)
     mostrar_texto(cuadro_guardar_nombre["superficie"], "Guardar", (16,16), FUENTE_TEXTO, COLOR_NEGRO)
 
@@ -61,10 +61,10 @@ def mostrar_fin_juego(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Eve
     
     if datos_juego["nombre"] != "":
         limpiar_superficie(cuadro_texto,"Imagenes/Botones/boton_a.png",450,ALTO_CUADRO)
-        mostrar_texto(cuadro_texto["superficie"],f"{datos_juego["nombre"]}",(10,0),FUENTE_CUADRO_TEXTO,COLOR_BLANCO)
+        mostrar_texto(cuadro_texto["superficie"],f"{datos_juego['nombre']}",(10,0),FUENTE_CUADRO_TEXTO,COLOR_BLANCO)
         
         if random.randint(1,2) == 1:
-            mostrar_texto(cuadro_texto["superficie"],f"{datos_juego["nombre"]}|",(10,0),FUENTE_CUADRO_TEXTO,COLOR_BLANCO)
+            mostrar_texto(cuadro_texto["superficie"],f"{datos_juego['nombre']}|",(10,0),FUENTE_CUADRO_TEXTO,COLOR_BLANCO)
         
     else:
         mostrar_texto(cuadro_texto["superficie"],"INGRESE SU NOMBRE",(10,15),FUENTE_RESPUESTA,"#736767")
